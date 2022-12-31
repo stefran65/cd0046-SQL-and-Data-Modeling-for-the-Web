@@ -1,0 +1,4 @@
+cd C:\Users\stefan.franz\workspaces\cd0046-SQL-and-Data-Modeling-for-the-Web
+SET FLASK_APP=app.py
+SET FLASK_DEBUG=true
+flask run
