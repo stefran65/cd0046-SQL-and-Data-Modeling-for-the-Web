@@ -1,8 +1,8 @@
 from datetime import datetime
 from flask_wtf import Form
 from wtforms import StringField, SelectField, SelectMultipleField, DateTimeField, BooleanField
-from wtforms.validators import DataRequired, AnyOf, URL
-
+from wtforms.validators import DataRequired, Length, Optional, Regexp, URL
+  
 class ShowForm(Form):
     artist_id = StringField(
         'artist_id'
@@ -13,7 +13,7 @@ class ShowForm(Form):
     start_time = DateTimeField(
         'start_time',
         validators=[DataRequired()],
-        default= datetime.today()
+        default=datetime.today()
     )
 
 class VenueForm(Form):
@@ -83,14 +83,14 @@ class VenueForm(Form):
         'address', validators=[DataRequired()]
     )
     phone = StringField(
-        'phone'
+        'phone', validators=[Regexp(regex=r'^\d{3}-\d{3}-\d{4}$', message='Phone number must be in the format XXX-XXX-XXXX')]
     )
     image_link = StringField(
         'image_link'
     )
     genres = SelectMultipleField(
-        # TODO implement enum restriction
-        'genres', validators=[DataRequired()],
+        # DONE implement enum restriction
+        'genres', validators=[DataRequired(), Length(max=3)],
         choices=[
             ('Alternative', 'Alternative'),
             ('Blues', 'Blues'),
@@ -114,14 +114,12 @@ class VenueForm(Form):
         ]
     )
     facebook_link = StringField(
-        'facebook_link', validators=[URL()]
+        'facebook_link', validators=[URL(), Optional()]
     )
     website_link = StringField(
         'website_link'
     )
-
     seeking_talent = BooleanField( 'seeking_talent' )
-
     seeking_description = StringField(
         'seeking_description'
     )
@@ -192,8 +190,8 @@ class ArtistForm(Form):
         ]
     )
     phone = StringField(
-        # TODO implement validation logic for state
-        'phone'
+        # DONE implement validation logic for state
+        'phone', validators=[Regexp(regex=r'^\d{3}-\d{3}-\d{4}$', message='Phone number must be in the format XXX-XXX-XXXX')]
     )
     image_link = StringField(
         'image_link'
@@ -223,8 +221,8 @@ class ArtistForm(Form):
         ]
      )
     facebook_link = StringField(
-        # TODO implement enum restriction
-        'facebook_link', validators=[URL()]
+        # SKIP implement enum restriction
+        'facebook_link', validators=[URL(), Optional()]
      )
 
     website_link = StringField(
